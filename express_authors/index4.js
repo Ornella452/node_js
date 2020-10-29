@@ -21,8 +21,7 @@ app.get('/json/authors/:id', (req, res, next) => {
 
 app.get('/json/authors/:id/books', (req, res, next) => {
 
-    //res.send(JSON.stringify(id))
-    
+    //res.send(JSON.stringify(id)) se met en json aussis
     res.json(id[1])
 
 })
