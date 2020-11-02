@@ -5,7 +5,7 @@ const autheurs = ['Lawrence Nowell UK', "William Shakespeare UK", 'Charles Dicke
 app.get(`/authors/:autheurs`, (req, res, next) => {
      res.send(`authors : ${autheurs[req.params.autheurs]}`) // req pour recuperer l'index de mon array 
      
-});
+});   
 
 
 
