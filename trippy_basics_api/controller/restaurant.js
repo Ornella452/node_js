@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const Restaurant = require('../models/Restaurant')
+const Table = require('../models/Table')
 
 //module.exports = (Restaurant) => {
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-       const resultatId = await Restaurant.findById(req.params.id)
+       const resultatId = await Restaurant.findById(req.params.id).populate('table')
        res.json(resultatId)
     } catch (error) {
 
@@ -35,7 +36,21 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 
     try {
-        const { name, address,city, country, stars, cuisine, priceCategory } = req.body.hotel
+
+
+        const {seat, isVIP} = req.body.table
+        const newTable = new Table({
+            seat, 
+            isVIP
+              
+        })
+        await newTable.save()
+        res.json(newTable)
+
+
+
+
+        const { name, address,city, country, stars, cuisine, priceCategory } = req.body.restaurant
         const newRestaurant = new Restaurant({
             
             name,
@@ -44,12 +59,32 @@ router.post('/', async (req, res) => {
             country,
             stars,
             cuisine,
-            priceCategory
+            priceCategory,
+            table: newTable._id
         });
         const newAddRestaurant = await newRestaurant.save();
         console.log("result adress", newAddRestaurant);
         res.json(newRestaurant)
      
+
+        /// exemple 
+
+
+        // {
+        //     "restaurant":{
+        //         "name": "Bonne nuit", 
+        //         "address":"avenue machin lulu",
+        //         "city":"pantin", 
+        //         "country": "france", 
+        //         "stars": 2, 
+        //           "priceCategory":1
+        //     },
+        //     "table":{
+        //           "seat": 1, 
+        //            "isVIP": "true"
+        //     }
+        // }
+      
 
     } catch (error) {
 

@@ -19,7 +19,12 @@ const restaurantShema = new Schema({
         type: Number,
         min: 1,
         max: 3
-    }
+    },
+    table: [{
+        type: mongoose.Types.ObjectId,
+        ref:'Table',
+    }]
+
 });
 
 module.exports = new mongoose.model('Restaurant', restaurantShema);
