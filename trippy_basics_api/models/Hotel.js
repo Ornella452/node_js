@@ -8,14 +8,24 @@ const hotelShema = new Schema({
     country: String,
     stars : {
         type: Number,
+        min: 1,
+        max: 5
+
     
     },
     hasSpa: Boolean,
     hasPool: Boolean,
     priceCategory : {
         type: Number,
+        min: 1,
+        max: 3
 
-    }
+    },
+    room: [{
+        type: mongoose.Types.ObjectId,
+        ref:'Room',
+    }]
+  
 });
 
 module.exports = new mongoose.model('Hotel', hotelShema);

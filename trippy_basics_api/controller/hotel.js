@@ -3,13 +3,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const Hotel = require('../models/Hotel')
+const Room = require('../models/Room')
 
 //module.exports = (Hotel) => {
 
 router.get('/', async (req, res) => {
 
     try {
-        const resultat = await Hotel.find();
+        const resultat = await Hotel.find()
         res.json(resultat)
 
     } catch (error) {
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-       const resultatId = await Hotel.findById(req.params.id)
+       const resultatId = await Hotel.findById(req.params.id).populate('room');
        res.json(resultatId)
     } catch (error) {
 
@@ -34,7 +35,19 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 
     try {
-        const { name, address,city, country, stars, hasSpa, hasPool, priceCategory } = req.body
+
+        const {people, price, isBathroom} = req.body.room
+        const newRoom = new Room({
+            people,
+             price,
+              isBathroom, 
+              
+        })
+        await newRoom.save()
+        res.json(newRoom)
+
+      
+        const { name, address,city, country, stars, hasSpa, hasPool, priceCategory, room} = req.body.hotel
         const newHotel = new Hotel({
             
             name,
@@ -44,11 +57,36 @@ router.post('/', async (req, res) => {
             stars,
             hasSpa,
             hasPool,
-            priceCategory
+            priceCategory,
+            room : newRoom._id
+            
         });
         const newAddHotel = await newHotel.save();
         console.log("result adress", newAddHotel);
         res.json(newHotel)
+
+        // {
+        //     "hotel":{
+        //         "name": "yes", 
+        //         "address":"avenue machin lulu",
+        //         "city":"pantin", 
+        //         "country": "france", 
+        //         "stars": 2, 
+        //         "hasSpa": "true",
+        //          "hasPool":"true",
+        //           "priceCategory":1
+        //     },
+        //     "room":{
+        //           "people":1 ,
+        //         "price":2,
+        //         "isBathroom": "true"
+        //     }
+        // }
+      
+
+
+        
+       
      
 
     } catch (error) {

@@ -8,6 +8,8 @@ const restaurantShema = new Schema({
     country: String,
     stars : {
         type: Number,
+        min: 1,
+        max: 3
       
         
 
@@ -15,6 +17,8 @@ const restaurantShema = new Schema({
     cuisine: String,
     priceCategory : {
         type: Number,
+        min: 1,
+        max: 3
     }
 });
 

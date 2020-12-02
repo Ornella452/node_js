@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
 
     try {
-        const { name, address,city, country, stars, cuisine, priceCategory } = req.body
+        const { name, address,city, country, stars, cuisine, priceCategory } = req.body.hotel
         const newRestaurant = new Restaurant({
             
             name,
